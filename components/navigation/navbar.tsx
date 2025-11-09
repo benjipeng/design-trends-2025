@@ -224,8 +224,8 @@ function Logo({
           fontSize,
           "font-bold bg-gradient-to-r bg-clip-text text-transparent",
           themeMode === 'light'
-            ? "from-[#667eea] to-[#764ba2]"
-            : "from-[#a78bfa] to-[#ec4899]"
+            ? "from-[#0052FF] via-[#059669] to-[#FF006E]"
+            : "from-[#22D3EE] via-[#A3E635] to-[#FF1B8D]"
         );
 
       case 'essence':
@@ -312,11 +312,11 @@ function NavLink({
           "font-medium",
           themeMode === 'light'
             ? isActive
-              ? "text-[#667eea]"
-              : "text-[#2d3748] hover:text-[#667eea]"
+              ? "text-[#0052FF] font-semibold"
+              : "text-[#1F2937] hover:text-[#0052FF]"
             : isActive
-              ? "text-[#a78bfa]"
-              : "text-[#f1f5f9] hover:text-[#a78bfa]"
+              ? "text-[#22D3EE] font-semibold"
+              : "text-[#E2E8F0] hover:text-[#22D3EE]"
         );
 
       case 'essence':
@@ -393,7 +393,7 @@ function ThemeToggle({
       case 'volt':
         return themeMode === 'light' ? '#FF007A' : '#00FFB3';
       case 'typeflow':
-        return themeMode === 'light' ? '#667eea' : '#a78bfa';
+        return themeMode === 'light' ? '#0052FF' : '#22D3EE';
       case 'essence':
         return themeMode === 'light' ? '#2d2d2d' : '#e0e0e0';
       case 'mosaic':
