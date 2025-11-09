@@ -374,8 +374,8 @@ function NavLink({
 }) {
   const getLinkStyles = () => {
     const baseStyles = pageTheme === 'aurora' && isScrolled
-      ? "px-2 py-1 rounded-lg transition-all duration-200 relative text-sm"
-      : "px-4 py-2 rounded-lg transition-all duration-200 relative";
+      ? "px-2 py-1 rounded-lg transition-all duration-200 relative text-sm whitespace-nowrap"
+      : "px-4 py-2 rounded-lg transition-all duration-200 relative whitespace-nowrap";
 
     switch (pageTheme) {
       case 'aurora':
