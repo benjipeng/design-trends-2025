@@ -6,6 +6,57 @@
   --radius: 0.5rem;
 }
 
+/* Base body background - adapts to theme */
+body {
+  min-height: 100vh;
+  transition: background-color 0.3s ease;
+}
+
+/* Aurora Glass backgrounds */
+[data-page-theme="aurora"][data-theme="light"] body {
+  background: linear-gradient(135deg, #67539f 0%, #c1bcd0 100%);
+}
+
+[data-page-theme="aurora"][data-theme="dark"] body {
+  background: linear-gradient(135deg, #18087c 0%, #2d1b69 100%);
+}
+
+/* Volt backgrounds */
+[data-page-theme="volt"][data-theme="light"] body {
+  background: #f5f5f5;
+}
+
+[data-page-theme="volt"][data-theme="dark"] body {
+  background: #0a0e27;
+}
+
+/* Typeflow backgrounds */
+[data-page-theme="typeflow"][data-theme="light"] body {
+  background: #ffffff;
+}
+
+[data-page-theme="typeflow"][data-theme="dark"] body {
+  background: #0f172a;
+}
+
+/* Essence backgrounds */
+[data-page-theme="essence"][data-theme="light"] body {
+  background: #faf9f7;
+}
+
+[data-page-theme="essence"][data-theme="dark"] body {
+  background: #1a1a1a;
+}
+
+/* Mosaic backgrounds */
+[data-page-theme="mosaic"][data-theme="light"] body {
+  background: #f9fafb;
+}
+
+[data-page-theme="mosaic"][data-theme="dark"] body {
+  background: #111827;
+}
+
 /* Font Variables */
 .font-playfair {
   font-family: 'Playfair Display', serif;
