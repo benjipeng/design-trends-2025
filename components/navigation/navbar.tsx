@@ -22,6 +22,7 @@ export function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const { scrollY } = useScroll();
   const blurAmount = useTransform(scrollY, [0, 100], [0, 20]);
@@ -38,6 +39,7 @@ export function Navbar() {
   useEffect(() => {
     const newTheme = getThemeFromPath(pathname);
     setPageTheme(newTheme);
+    setIsMounted(true);
   }, [pathname, setPageTheme]);
 
   // Detect scroll
@@ -50,6 +52,11 @@ export function Navbar() {
   }, []);
 
   const colors = currentTheme.colors[themeMode];
+
+  // Prevent rendering until theme is properly initialized
+  if (!isMounted) {
+    return null;
+  }
 
   // Framer Motion variants for unique transitions per theme
   const navbarVariants = {
@@ -187,10 +194,11 @@ export function Navbar() {
         >
           <div className={cn(
             "flex items-center h-full",
-            pageTheme === 'typeflow' && "justify-center gap-8",
+            pageTheme === 'typeflow' && isScrolled ? "justify-center gap-4" : pageTheme === 'typeflow' && "justify-center gap-8",
             pageTheme === 'mosaic' && isScrolled ? "flex-row gap-2" : "justify-between",
             pageTheme === 'essence' && isScrolled && "h-[2px] overflow-hidden",
-            pageTheme === 'aurora' && isScrolled && "gap-2"
+            pageTheme === 'aurora' && isScrolled && "gap-2",
+            pageTheme !== 'typeflow' && pageTheme !== 'mosaic' && "justify-between"
           )}>
             {/* Logo - Hidden on Typeflow when scrolled for centered layout */}
             {!(pageTheme === 'typeflow' && isScrolled) && (
@@ -210,8 +218,9 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <div className={cn(
-              "hidden md:flex items-center flex-grow justify-center",
-              pageTheme === 'typeflow' ? "gap-6" : pageTheme === 'aurora' && isScrolled ? "gap-0" : "gap-1",
+              "hidden md:flex items-center",
+              pageTheme === 'typeflow' && isScrolled ? "gap-4" : pageTheme === 'typeflow' ? "gap-6 flex-grow justify-center" : "flex-grow justify-center",
+              pageTheme === 'aurora' && isScrolled ? "gap-0 flex-grow justify-center" : pageTheme === 'aurora' && "gap-1 flex-grow justify-center",
               pageTheme === 'mosaic' && isScrolled && "flex-wrap"
             )}>
               {navLinks.map((link, index) => (
@@ -233,28 +242,50 @@ export function Navbar() {
                   </NavLink>
                 </motion.div>
               ))}
+
+              {/* Theme Toggle included in centered container for Typeflow when scrolled */}
+              {pageTheme === 'typeflow' && isScrolled && (
+                <ThemeToggle
+                  themeMode={themeMode}
+                  setThemeMode={setThemeMode}
+                  pageTheme={pageTheme}
+                />
+              )}
             </div>
 
-            {/* Theme Toggle & Mobile Menu */}
-            <div className={cn(
-              "flex items-center gap-4 flex-shrink-0",
-              pageTheme === 'mosaic' && isScrolled && "bento-card px-4 py-2 rounded-lg"
-            )}>
-              <ThemeToggle
-                themeMode={themeMode}
-                setThemeMode={setThemeMode}
-                pageTheme={pageTheme}
-              />
+            {/* Theme Toggle & Mobile Menu - Hidden on Typeflow when scrolled (moved to centered container) */}
+            {!(pageTheme === 'typeflow' && isScrolled) && (
+              <div className={cn(
+                "flex items-center gap-4 flex-shrink-0",
+                pageTheme === 'mosaic' && isScrolled && "bento-card px-4 py-2 rounded-lg"
+              )}>
+                <ThemeToggle
+                  themeMode={themeMode}
+                  setThemeMode={setThemeMode}
+                  pageTheme={pageTheme}
+                />
 
-              {/* Mobile Menu Button */}
+                {/* Mobile Menu Button */}
+                <button
+                  className="md:hidden p-2"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  style={{ color: colors.text }}
+                >
+                  {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+              </div>
+            )}
+
+            {/* Mobile Menu Button for Typeflow when scrolled */}
+            {pageTheme === 'typeflow' && isScrolled && (
               <button
-                className="md:hidden p-2"
+                className="md:hidden p-2 flex-shrink-0"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 style={{ color: colors.text }}
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
-            </div>
+            )}
           </div>
         </motion.div>
       </motion.nav>
