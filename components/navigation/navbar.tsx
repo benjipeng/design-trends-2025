@@ -25,7 +25,14 @@ export function Navbar() {
 
   const { scrollY } = useScroll();
   const blurAmount = useTransform(scrollY, [0, 100], [0, 20]);
-  const navHeight = useTransform(scrollY, [0, 100], [80, 64]);
+
+  // Dynamic navbar height based on theme and scroll
+  const getNavbarHeight = () => {
+    if (pageTheme === 'essence') return isScrolled ? '2px' : '60px';
+    if (pageTheme === 'volt') return isScrolled ? '64px' : '80px';
+    if (pageTheme === 'typeflow') return isScrolled ? '60px' : '72px';
+    return '80px';
+  };
 
   // Update page theme based on pathname
   useEffect(() => {
@@ -44,52 +51,100 @@ export function Navbar() {
 
   const colors = currentTheme.colors[themeMode];
 
+  // Framer Motion variants for unique transitions per theme
+  const navbarVariants = {
+    aurora: {
+      initial: { y: -100, opacity: 0 },
+      animate: { y: 0, opacity: 1 },
+      scrolled: { y: 10, scale: 0.95, borderRadius: 24 },
+      notScrolled: { y: 0, scale: 1, borderRadius: 0 }
+    },
+    volt: {
+      initial: { y: -100, opacity: 0, clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)' },
+      animate: { y: 0, opacity: 1, clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' },
+      scrolled: { clipPath: 'polygon(5% 0, 95% 0, 100% 100%, 0 100%)' },
+      notScrolled: { clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }
+    },
+    typeflow: {
+      initial: { scale: 0.8, opacity: 0 },
+      animate: { scale: 1, opacity: 1 },
+      scrolled: { width: '85%', borderRadius: 50 },
+      notScrolled: { width: '100%', borderRadius: 0 }
+    },
+    essence: {
+      initial: { scaleY: 0, opacity: 0 },
+      animate: { scaleY: 1, opacity: 1 },
+      scrolled: { height: '2px', paddingTop: 0, paddingBottom: 0 },
+      notScrolled: { height: '60px', paddingTop: '1rem', paddingBottom: '1rem' }
+    },
+    mosaic: {
+      initial: { y: -100, opacity: 0 },
+      animate: { y: 0, opacity: 1 },
+      scrolled: { gap: '8px', padding: '12px' },
+      notScrolled: { gap: '0px', padding: '0px' }
+    }
+  };
+
   // Navbar styling based on page theme
   const getNavbarStyles = () => {
-    const base = "fixed top-0 left-0 right-0 z-50 transition-all duration-300";
+    const base = "fixed z-50 transition-all duration-500";
 
     switch (pageTheme) {
       case 'aurora':
+        // Floating glassmorphic pill
         return cn(
           base,
+          "top-0 left-0 right-0",
           themeMode === 'light'
-            ? "bg-white/10 border-b border-white/20"
-            : "bg-white/5 border-b border-white/10",
-          isScrolled && "backdrop-blur-lg"
+            ? "bg-white/10 border border-white/20"
+            : "bg-white/5 border border-white/10",
+          "backdrop-blur-lg shadow-xl",
+          isScrolled && "mx-4 md:mx-8 mt-4 rounded-3xl"
         );
 
       case 'volt':
+        // Sharp geometric with neon border
         return cn(
           base,
+          "top-0 left-0 right-0",
           themeMode === 'light'
-            ? "bg-white border-b-2"
-            : "bg-[#0a0e27] border-b-2",
-          isScrolled && "shadow-lg"
+            ? "bg-white border-2"
+            : "bg-[#0a0e27] border-2",
+          isScrolled && "shadow-[0_0_30px_rgba(255,0,122,0.3)]"
         );
 
       case 'typeflow':
+        // Centered pill capsule
         return cn(
           base,
+          "top-4 left-1/2 -translate-x-1/2",
           themeMode === 'light'
-            ? "bg-white/80 backdrop-blur-md"
-            : "bg-slate-900/80 backdrop-blur-md"
+            ? "bg-white/90 border border-gray-200"
+            : "bg-[#0F1419]/90 border border-cyan-500/20",
+          "backdrop-blur-xl shadow-2xl",
+          isScrolled ? "rounded-full" : "rounded-2xl w-full"
         );
 
       case 'essence':
+        // Minimal thin line
         return cn(
           base,
+          "top-0 left-0 right-0",
           themeMode === 'light'
-            ? "bg-[#faf9f7]"
-            : "bg-[#1a1a1a]",
-          isScrolled && "shadow-sm"
+            ? "bg-[#faf9f7] border-b"
+            : "bg-[#1a1a1a] border-b border-white/5",
+          isScrolled && "border-b-2"
         );
 
       case 'mosaic':
+        // Modular bento segments
         return cn(
           base,
+          "top-0 left-0 right-0",
           themeMode === 'light'
-            ? "bg-white border-b border-gray-200"
-            : "bg-gray-900 border-b border-gray-700"
+            ? "bg-gray-50"
+            : "bg-gray-900",
+          isScrolled && "px-4 py-3"
         );
 
       default:
@@ -108,45 +163,82 @@ export function Navbar() {
     <>
       <motion.nav
         className={getNavbarStyles()}
+        initial="initial"
+        animate="animate"
+        variants={navbarVariants[pageTheme]}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         style={{
+          height: getNavbarHeight(),
           ...(pageTheme === 'aurora' && isScrolled
             ? { backdropFilter: `blur(${blurAmount}px)` }
             : {}),
-          height: pageTheme === 'volt' && isScrolled ? '64px' : '80px',
           ...getBorderColor(),
         }}
       >
-        <div className="container mx-auto px-6 h-full">
-          <div className="flex items-center justify-between h-full">
-            {/* Logo */}
-            <Link href="/">
-              <motion.div
-                className="flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Logo pageTheme={pageTheme} themeMode={themeMode} isScrolled={isScrolled} />
-              </motion.div>
-            </Link>
+        <motion.div
+          className={cn(
+            "mx-auto h-full",
+            pageTheme === 'typeflow' ? "px-8" : "container px-6",
+            pageTheme === 'mosaic' && isScrolled && "flex gap-2"
+          )}
+          animate={isScrolled ? "scrolled" : "notScrolled"}
+          variants={navbarVariants[pageTheme]}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className={cn(
+            "flex items-center h-full",
+            pageTheme === 'typeflow' && "justify-center gap-8",
+            pageTheme === 'mosaic' && isScrolled ? "flex-row gap-2" : "justify-between",
+            pageTheme === 'essence' && isScrolled && "h-[2px] overflow-hidden"
+          )}>
+            {/* Logo - Hidden on Typeflow when scrolled for centered layout */}
+            {!(pageTheme === 'typeflow' && isScrolled) && (
+              <Link href="/">
+                <motion.div
+                  className={cn(
+                    "flex items-center gap-2",
+                    pageTheme === 'mosaic' && isScrolled && "bento-card px-4 py-2 rounded-lg"
+                  )}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Logo pageTheme={pageTheme} themeMode={themeMode} isScrolled={isScrolled} />
+                </motion.div>
+              </Link>
+            )}
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <NavLink
+            <div className={cn(
+              "hidden md:flex items-center",
+              pageTheme === 'typeflow' ? "gap-6" : "gap-1",
+              pageTheme === 'mosaic' && isScrolled && "flex-wrap"
+            )}>
+              {navLinks.map((link, index) => (
+                <motion.div
                   key={link.href}
-                  href={link.href}
-                  isActive={pathname === link.href}
-                  pageTheme={pageTheme}
-                  themeMode={themeMode}
-                  isScrolled={isScrolled}
+                  className={pageTheme === 'mosaic' && isScrolled ? "bento-card rounded-lg" : ""}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                 >
-                  {link.name}
-                </NavLink>
+                  <NavLink
+                    href={link.href}
+                    isActive={pathname === link.href}
+                    pageTheme={pageTheme}
+                    themeMode={themeMode}
+                    isScrolled={isScrolled}
+                  >
+                    {link.name}
+                  </NavLink>
+                </motion.div>
               ))}
             </div>
 
             {/* Theme Toggle & Mobile Menu */}
-            <div className="flex items-center gap-4">
+            <div className={cn(
+              "flex items-center gap-4",
+              pageTheme === 'mosaic' && isScrolled && "bento-card px-4 py-2 rounded-lg"
+            )}>
               <ThemeToggle
                 themeMode={themeMode}
                 setThemeMode={setThemeMode}
@@ -163,7 +255,7 @@ export function Navbar() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </motion.nav>
 
       {/* Mobile Menu */}
@@ -224,8 +316,8 @@ function Logo({
           fontSize,
           "font-bold bg-gradient-to-r bg-clip-text text-transparent",
           themeMode === 'light'
-            ? "from-[#667eea] to-[#764ba2]"
-            : "from-[#a78bfa] to-[#ec4899]"
+            ? "from-[#0052FF] via-[#059669] to-[#FF006E]"
+            : "from-[#22D3EE] via-[#A3E635] to-[#FF1B8D]"
         );
 
       case 'essence':
@@ -312,11 +404,11 @@ function NavLink({
           "font-medium",
           themeMode === 'light'
             ? isActive
-              ? "text-[#667eea]"
-              : "text-[#2d3748] hover:text-[#667eea]"
+              ? "text-[#0052FF] font-semibold"
+              : "text-[#1F2937] hover:text-[#0052FF]"
             : isActive
-              ? "text-[#a78bfa]"
-              : "text-[#f1f5f9] hover:text-[#a78bfa]"
+              ? "text-[#22D3EE] font-semibold"
+              : "text-[#E2E8F0] hover:text-[#22D3EE]"
         );
 
       case 'essence':
@@ -393,7 +485,7 @@ function ThemeToggle({
       case 'volt':
         return themeMode === 'light' ? '#FF007A' : '#00FFB3';
       case 'typeflow':
-        return themeMode === 'light' ? '#667eea' : '#a78bfa';
+        return themeMode === 'light' ? '#0052FF' : '#22D3EE';
       case 'essence':
         return themeMode === 'light' ? '#2d2d2d' : '#e0e0e0';
       case 'mosaic':

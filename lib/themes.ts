@@ -118,20 +118,20 @@ export const themes: Record<PageTheme, ThemeConfig> = {
     },
     colors: {
       light: {
-        primary: '#667eea',
-        secondary: '#764ba2',
-        accent: '#f093fb',
-        background: '#ffffff',
-        text: '#2d3748',
-        gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+        primary: '#0052FF',       // Electric cobalt blue
+        secondary: '#059669',      // Emerald green
+        accent: '#FF006E',         // Hot pink/magenta
+        background: '#F8F9FA',     // Off-white
+        text: '#1F2937',           // Deep charcoal
+        gradient: 'linear-gradient(135deg, #0052FF 0%, #059669 50%, #FF006E 100%)',
       },
       dark: {
-        primary: '#a78bfa',
-        secondary: '#ec4899',
-        accent: '#fbbf24',
-        background: '#0f172a',
-        text: '#f1f5f9',
-        gradient: 'linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #fbbf24 100%)',
+        primary: '#22D3EE',        // Electric cyan
+        secondary: '#A3E635',      // Lime green
+        accent: '#FF1B8D',         // Vibrant hot pink
+        background: '#0F1419',     // Deep charcoal
+        text: '#E2E8F0',           // Cool off-white
+        gradient: 'linear-gradient(135deg, #22D3EE 0%, #A3E635 50%, #FF1B8D 100%)',
       },
     },
     navbar: {

@@ -32,11 +32,11 @@ body {
 
 /* Typeflow backgrounds */
 [data-page-theme="typeflow"][data-theme="light"] body {
-  background: #ffffff;
+  background: #F8F9FA;
 }
 
 [data-page-theme="typeflow"][data-theme="dark"] body {
-  background: #0f172a;
+  background: #0F1419;
 }
 
 /* Essence backgrounds */
@@ -264,46 +264,48 @@ body {
 
 [data-page-theme="typeflow"] {
   .typeflow-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background: linear-gradient(135deg, #0052FF 0%, #059669 50%, #FF006E 100%);
   }
 
   .typeflow-text {
-    color: #2d3748;
+    color: #1F2937;
   }
 
   .typeflow-text-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0052FF 0%, #059669 50%, #FF006E 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .kinetic-card {
-    background: white;
+    background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 82, 255, 0.12);
+    border: 1px solid rgba(0, 82, 255, 0.1);
   }
 }
 
 [data-page-theme="typeflow"][data-theme="dark"] {
   .typeflow-gradient {
-    background: linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #fbbf24 100%);
+    background: linear-gradient(135deg, #22D3EE 0%, #A3E635 50%, #FF1B8D 100%);
   }
 
   .typeflow-text {
-    color: #f1f5f9;
+    color: #E2E8F0;
   }
 
   .typeflow-text-gradient {
-    background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
+    background: linear-gradient(135deg, #22D3EE 0%, #A3E635 50%, #FF1B8D 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .kinetic-card {
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 20, 25, 0.9);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    box-shadow: 0 4px 20px rgba(34, 211, 238, 0.15);
   }
 }
 
