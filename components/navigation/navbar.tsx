@@ -208,7 +208,7 @@ function Logo({
         return cn(
           fontSize,
           "font-serif font-bold",
-          themeMode === 'light' ? "text-[#18087c]" : "text-[#c19cf6]"
+          themeMode === 'light' ? "text-[#18087c]" : "text-[#e8deff]"
         );
 
       case 'volt':
@@ -290,8 +290,8 @@ function NavLink({
               ? "text-[#18087c] bg-white/20"
               : "text-[#1a1a1a] hover:text-[#18087c] hover:bg-white/10"
             : isActive
-              ? "text-[#c19cf6] bg-white/10"
-              : "text-[#f0f0f0] hover:text-[#c19cf6] hover:bg-white/5"
+              ? "text-[#e8deff] bg-white/10"
+              : "text-[#d0c4e8] hover:text-[#e8deff] hover:bg-white/5"
         );
 
       case 'volt':
@@ -386,6 +386,23 @@ function ThemeToggle({
     }
   };
 
+  const getIconColor = () => {
+    switch (pageTheme) {
+      case 'aurora':
+        return themeMode === 'light' ? '#18087c' : '#ffffff';
+      case 'volt':
+        return themeMode === 'light' ? '#FF007A' : '#00FFB3';
+      case 'typeflow':
+        return themeMode === 'light' ? '#667eea' : '#a78bfa';
+      case 'essence':
+        return themeMode === 'light' ? '#2d2d2d' : '#e0e0e0';
+      case 'mosaic':
+        return themeMode === 'light' ? '#4f46e5' : '#818cf8';
+      default:
+        return themeMode === 'light' ? '#000000' : '#ffffff';
+    }
+  };
+
   return (
     <motion.button
       className={getToggleStyles()}
@@ -393,6 +410,7 @@ function ThemeToggle({
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       aria-label="Toggle theme"
+      style={{ color: getIconColor() }}
     >
       {themeMode === 'light' ? (
         <Moon size={20} />
