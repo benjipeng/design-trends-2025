@@ -189,14 +189,15 @@ export function Navbar() {
             "flex items-center h-full",
             pageTheme === 'typeflow' && "justify-center gap-8",
             pageTheme === 'mosaic' && isScrolled ? "flex-row gap-2" : "justify-between",
-            pageTheme === 'essence' && isScrolled && "h-[2px] overflow-hidden"
+            pageTheme === 'essence' && isScrolled && "h-[2px] overflow-hidden",
+            pageTheme === 'aurora' && isScrolled && "gap-2"
           )}>
             {/* Logo - Hidden on Typeflow when scrolled for centered layout */}
             {!(pageTheme === 'typeflow' && isScrolled) && (
               <Link href="/">
                 <motion.div
                   className={cn(
-                    "flex items-center gap-2",
+                    "flex items-center gap-2 flex-shrink-0",
                     pageTheme === 'mosaic' && isScrolled && "bento-card px-4 py-2 rounded-lg"
                   )}
                   whileHover={{ scale: 1.05 }}
@@ -209,8 +210,8 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <div className={cn(
-              "hidden md:flex items-center",
-              pageTheme === 'typeflow' ? "gap-6" : "gap-1",
+              "hidden md:flex items-center flex-grow justify-center",
+              pageTheme === 'typeflow' ? "gap-6" : pageTheme === 'aurora' && isScrolled ? "gap-0" : "gap-1",
               pageTheme === 'mosaic' && isScrolled && "flex-wrap"
             )}>
               {navLinks.map((link, index) => (
@@ -236,7 +237,7 @@ export function Navbar() {
 
             {/* Theme Toggle & Mobile Menu */}
             <div className={cn(
-              "flex items-center gap-4",
+              "flex items-center gap-4 flex-shrink-0",
               pageTheme === 'mosaic' && isScrolled && "bento-card px-4 py-2 rounded-lg"
             )}>
               <ThemeToggle
@@ -293,7 +294,8 @@ function Logo({
   };
 
   const getLogoStyles = () => {
-    const fontSize = isScrolled && pageTheme === 'essence' ? 'text-xl' : 'text-2xl';
+    const fontSize = isScrolled && pageTheme === 'essence' ? 'text-xl' :
+                     isScrolled && pageTheme === 'aurora' ? 'text-lg' : 'text-2xl';
 
     switch (pageTheme) {
       case 'aurora':
@@ -371,7 +373,9 @@ function NavLink({
   isScrolled: boolean;
 }) {
   const getLinkStyles = () => {
-    const baseStyles = "px-4 py-2 rounded-lg transition-all duration-200 relative";
+    const baseStyles = pageTheme === 'aurora' && isScrolled
+      ? "px-2 py-1 rounded-lg transition-all duration-200 relative text-sm"
+      : "px-4 py-2 rounded-lg transition-all duration-200 relative";
 
     switch (pageTheme) {
       case 'aurora':

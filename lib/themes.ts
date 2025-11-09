@@ -123,7 +123,7 @@ export const themes: Record<PageTheme, ThemeConfig> = {
         accent: '#FF006E',         // Hot pink/magenta
         background: '#F8F9FA',     // Off-white
         text: '#1F2937',           // Deep charcoal
-        gradient: 'linear-gradient(135deg, #0052FF 0%, #059669 50%, #FF006E 100%)',
+        gradient: 'linear-gradient(90deg, #0052FF 0%, #059669 50%, #FF006E 100%)',
       },
       dark: {
         primary: '#22D3EE',        // Electric cyan
@@ -131,7 +131,7 @@ export const themes: Record<PageTheme, ThemeConfig> = {
         accent: '#FF1B8D',         // Vibrant hot pink
         background: '#0F1419',     // Deep charcoal
         text: '#E2E8F0',           // Cool off-white
-        gradient: 'linear-gradient(135deg, #22D3EE 0%, #A3E635 50%, #FF1B8D 100%)',
+        gradient: 'linear-gradient(90deg, #22D3EE 0%, #A3E635 50%, #FF1B8D 100%)',
       },
     },
     navbar: {
